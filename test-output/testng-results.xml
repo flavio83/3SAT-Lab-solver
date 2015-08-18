@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="1" total="7" passed="6">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="110" started-at="2015-08-14T19:02:24Z" finished-at="2015-08-14T19:02:24Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="110" started-at="2015-08-14T19:02:24Z" finished-at="2015-08-14T19:02:24Z">
+      <class name="com.net.testng.protocol.TestCurrencyEvent">
+        <test-method status="PASS" signature="straightforword()[pri:0, instance:com.net.testng.protocol.TestCurrencyEvent@1bbe5e8]" name="straightforword" duration-ms="94" started-at="2015-08-14T20:02:24Z" finished-at="2015-08-14T20:02:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- straightforword -->
+        <test-method status="PASS" signature="twoNewsPerEventTestShort()[pri:0, instance:com.net.testng.protocol.TestCurrencyEvent@1bbe5e8]" name="twoNewsPerEventTestShort" duration-ms="0" started-at="2015-08-14T20:02:24Z" finished-at="2015-08-14T20:02:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- twoNewsPerEventTestShort -->
+        <test-method status="PASS" signature="twoFieldPerNewsTestLongPlusEventAlreadyEvaluatedTest()[pri:0, instance:com.net.testng.protocol.TestCurrencyEvent@1bbe5e8]" name="twoFieldPerNewsTestLongPlusEventAlreadyEvaluatedTest" duration-ms="0" started-at="2015-08-14T20:02:24Z" finished-at="2015-08-14T20:02:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- twoFieldPerNewsTestLongPlusEventAlreadyEvaluatedTest -->
+        <test-method status="PASS" signature="straightforwordTestShort()[pri:0, instance:com.net.testng.protocol.TestCurrencyEvent@1bbe5e8]" name="straightforwordTestShort" duration-ms="0" started-at="2015-08-14T20:02:24Z" finished-at="2015-08-14T20:02:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- straightforwordTestShort -->
+        <test-method status="PASS" signature="straightforwordTestLong()[pri:0, instance:com.net.testng.protocol.TestCurrencyEvent@1bbe5e8]" name="straightforwordTestLong" duration-ms="0" started-at="2015-08-14T20:02:24Z" finished-at="2015-08-14T20:02:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- straightforwordTestLong -->
+        <test-method status="PASS" signature="twoFieldPerTwoNewsTestLongPlusEventAlreadyEvaluatedTest()[pri:0, instance:com.net.testng.protocol.TestCurrencyEvent@1bbe5e8]" name="twoFieldPerTwoNewsTestLongPlusEventAlreadyEvaluatedTest" duration-ms="0" started-at="2015-08-14T20:02:24Z" finished-at="2015-08-14T20:02:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- twoFieldPerTwoNewsTestLongPlusEventAlreadyEvaluatedTest -->
+        <test-method status="FAIL" signature="straightforwordOutOfTime()[pri:0, instance:com.net.testng.protocol.TestCurrencyEvent@1bbe5e8]" name="straightforwordOutOfTime" duration-ms="0" started-at="2015-08-14T20:02:24Z" finished-at="2015-08-14T20:02:24Z">
+          <exception class="java.lang.AssertionError">
+            <message>
+              <![CDATA[expected [OUT_OF_TIME] but found [WAITING]]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.AssertionError: expected [OUT_OF_TIME] but found [WAITING]
+	at org.testng.Assert.fail(Assert.java:94)
+	at org.testng.Assert.failNotEquals(Assert.java:496)
+	at org.testng.Assert.assertEquals(Assert.java:125)
+	at org.testng.Assert.assertEquals(Assert.java:167)
+	at com.net.testng.protocol.TestCurrencyEvent.straightforwordOutOfTime(TestCurrencyEvent.java:45)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:85)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:639)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:821)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1131)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:124)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:108)
+	at org.testng.TestRunner.privateRun(TestRunner.java:773)
+	at org.testng.TestRunner.run(TestRunner.java:623)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:357)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:352)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:310)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:259)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1185)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1110)
+	at org.testng.TestNG.run(TestNG.java:1018)
+	at org.testng.remote.RemoteTestNG.run(RemoteTestNG.java:111)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:204)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:175)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.AssertionError -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- straightforwordOutOfTime -->
+      </class> <!-- com.net.testng.protocol.TestCurrencyEvent -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

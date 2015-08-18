@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                     "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+<!--   <property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property> -->
+  <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+  <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres</property>
+  <property name="hibernate.connection.username">marchifl</property>
+  <property name="hibernate.connection.password">velvia</property>
+<!--   <property name="hibernate.dialect">com.net.flavix.dto.MariaDBCustomDialect</property> --> 
+<!--   <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property> -->
+  <property name="hibernate.dialect">com.net.flavix.persistflow.ArrayPostgreSQLDialect</property>
+  <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+  <property name="show_sql">false</property>
+  <property name="format_sql">false</property>
+  <property name="hbm2ddl.auto">update</property>
+  <mapping class="com.net.flavix.dto.EstimateReleaseNewsFeed" />
+  <mapping class="com.net.flavix.dto.AlphaflashFlow" />
+  <mapping class="com.net.flavix.dto.AlphaflashCalendar" />
+  <mapping class="com.net.flavix.dto.CategoriesPlexer" />
+  <mapping class="com.net.flavix.dto.Persister" />
+  <mapping class="com.net.flavix.persistflow.NewsPlainRow" />
+  <mapping class="com.net.flavix.dto.CSVHistoricRecord" />
+ </session-factory>
+</hibernate-configuration>
