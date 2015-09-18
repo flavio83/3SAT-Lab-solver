@@ -37,13 +37,11 @@ public class Main {
 		System.setProperty("networkaddress.cache.negative.ttl", "0");
 		Authenticator.setDefault(new Authenticator() {
 		    protected PasswordAuthentication getPasswordAuthentication() {
-		        return new PasswordAuthentication("marchifl","b*76*CH9ab".toCharArray());
+		        return new PasswordAuthentication("marchifl","b*80*CH9ab".toCharArray());
 		    }
 		});
 		
-
 		try {
-			
 			for(int i=1;i<=12;i++) {
 				System.out.println(i);
 				Thread.sleep(1000);

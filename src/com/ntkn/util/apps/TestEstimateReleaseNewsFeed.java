@@ -29,7 +29,7 @@ public class TestEstimateReleaseNewsFeed {
 
 	Gson gson = new Gson();
 	
-	 private static final String DATE_FORMAT = "E dd-MM-yyyy HH:mm:ss.SSS";
+	private static final String DATE_FORMAT = "E dd-MM-yyyy HH:mm:ss.SSS";
 
 	public TestEstimateReleaseNewsFeed() {
 		SimpleDateFormat dateFormatter =  new SimpleDateFormat(DATE_FORMAT);
