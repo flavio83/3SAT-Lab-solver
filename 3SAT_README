@@ -1,6 +1,6 @@
 com.threesat.fourth
 
-solver the navigate all the problem's truth table, it works fine but it's exponential.
+solver that navigate all the problem's truth table, it works fine but it's exponential.
  - 	the next step would be verify if the coverage of the clause from (a^b^c) TO (f'^g'^h') fulfil the problem's
 	truth table for the variables (other... a b c ...other... f g h ....other) in which it is composed the expression
 	with all the clauses attached from (a^b^c) TO (f'^g'^h')

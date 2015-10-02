@@ -14,16 +14,16 @@
 	</properties>
 
 	<dependencies>
-	<dependency>
-	<groupId>org.magicwerk</groupId>
-	<artifactId>brownies-collections</artifactId>
-	<version>0.9.10</version>
-</dependency>
-<dependency>
-    <groupId>uk.com.robust-it</groupId>
-    <artifactId>cloning</artifactId>
-    <version>1.9.2</version>
-</dependency>
+		<dependency>
+		<groupId>org.magicwerk</groupId>
+		<artifactId>brownies-collections</artifactId>
+		<version>0.9.10</version>
+	</dependency>
+		<dependency>
+		    <groupId>uk.com.robust-it</groupId>
+		    <artifactId>cloning</artifactId>
+		    <version>1.9.2</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

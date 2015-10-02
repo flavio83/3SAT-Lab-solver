@@ -31,9 +31,10 @@ public class Main3SATSolver {
 	static BigInteger index = new BigInteger("0");
 	static String[] variables = new String[] { "a", "b", "c", "d" };
 	
-	static String filename = "C:\\DEV\\3sat\\UUF250.1065.100\\uuf250-01.cnf";
+	//static String filename = "C:\\DEV\\3sat\\UUF250.1065.100\\uuf250-098.cnf";
+	//static String filename = "C:\\DEV\\3sat\\UF250.1065.100\\uf250-072.cnf";
 	//static String filename = "C:\\DEV\\3sat\\3sat1000sot\\uf20-0532.cnf";
-	//static String filename = "C:\\DEV\\3sat\\UF50.218.1000\\uf50-01.cnf";
+	static String filename = "C:\\DEV\\3sat\\UF50.218.1000\\uf50-01.cnf";
 	//static String filename = "C:\\DEV\\3sat\\UUF50.218.1000\\uuf50-018.cnf";
 	//static String filename = "C:\\DEV\\3sat\\zfcp-2.8-u2-nh.cnf";
 	//static String filename = "C:\\DEV\\3sat\\UR-20-10p1_HARD.cnf";
@@ -49,7 +50,7 @@ public class Main3SATSolver {
 	
 	static {
 		Timer timer = new Timer();
-		timer.schedule(new TimerTask() { 
+		timer.schedule(new TimerTask() {
 		   @Override  
 		   public void run() {
 			   //System.out.println("---> " + (System.currentTimeMillis()-timePass)/1000 + "sec, index: " + index + " " + new StringBuilder(index.toString(2)).reverse().toString());
@@ -75,9 +76,13 @@ public class Main3SATSolver {
 		new Main3SATSolver(expression.toArray(new Clause[]{}));
 	}
 	
+	int acc = 0;
+	List<String> val = new ArrayList<>();
+	
 	public Main3SATSolver(Clause... expression) {
 
 		variables = reshuffleVariables(expression);
+		System.out.println("filename: " + filename);
 		System.out.println("exp lengh " + variables.length);
 		System.out.println("problem space's length: " + new BigInteger("2").pow(variables.length));
 		
@@ -100,7 +105,6 @@ public class Main3SATSolver {
 				
 				List<Boolean> v = buildStringListForEachChar(toBinaryString(index,variables.length));
 				Assignments ass = new Assignments(vcombination.getVector(),v);
-				
 				
 				//System.out.println(index.divideAndRemainder(new BigInteger("2").pow(152))[1]);
 				//System.out.println("index: " + index + " variablespermutationCounter: " 
@@ -150,6 +154,13 @@ public class Main3SATSolver {
 				//System.out.println("r------------> " + entriesSortedByValues(removedClause));
 				
 				int pow = maxEntry.getKey();
+				if(!val.contains(findKeyValue(maxEntry.getValue(),ass))) {
+					val.add(findKeyValue(maxEntry.getValue(),ass));
+				}
+				if(acc!=val.size()) {
+					System.out.println("num vars used: " + val.size() + " - vars: " + val);
+					acc = val.size();
+				}
 				//System.out.println("index: " + index + " shift of " + maxEntry.getKey() + "(" + (int)Math.pow(2.0d, pow) + ") " + maxEntry.getValue());
 				//aux.remove(maxEntry.getValue().get(0));
 				if(pow==-1) {
@@ -158,6 +169,7 @@ public class Main3SATSolver {
 					System.exit(-1);
 				} else {
 					index = index.add(new BigInteger("2").pow(pow));
+					System.out.println(findKeyValue(maxEntry.getValue(),ass) + " - " + new BigInteger("2").pow(pow) + " - " + maxEntry.getValue());
 				}
 				//System.out.println(index + " " + variables.length);
 				if(index.equals(new BigInteger("2").pow(variables.length))) {
@@ -167,6 +179,16 @@ public class Main3SATSolver {
 				}
 			}
 			
+		}
+	}
+	
+	
+	
+	private String findKeyValue(List<Clause> l, Assignments ass) {
+		if(l.size()==1) {
+			return ass.getUnsatisfiableVariableFromClause(l.get(0));
+		} else {
+			return Assignments.getCommonVariable(l);
 		}
 	}
 	
