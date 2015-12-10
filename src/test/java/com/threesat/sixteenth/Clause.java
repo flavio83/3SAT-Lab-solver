@@ -1,11 +1,7 @@
-package com.threesat.fourth;
+package com.threesat.sixteenth;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import com.threesat.fourth.Main3SATSolver.ComparatorOfNumericString;
 
 
 
@@ -107,34 +103,10 @@ public class Clause {
 		this.thirdNegate = thirdNegate;
 	}
 	
-	/*
 	public String toString() {
 		return "(" + first.replace("-", "") + (firstNegate?"'":"") + " ^ "
 				+ second.replace("-", "") + (secondNegate?"'":"") + " ^ "
 				+ third.replace("-", "") + (thirdNegate?"'":"") + ")";
-	}
-	*/
-	
-	class ComparatorOfNumericString implements Comparator<String>{
-	    public int compare(String string1, String string2) {
-	        return Math.abs(Integer.parseInt(string1)) - Math.abs(Integer.parseInt(string2));
-	    }
-	}
-	
-	public String toString() {
-		List<String> list = new ArrayList<>();
-		list.add((firstNegate?"-":"") + first);
-		list.add((secondNegate?"-":"") + second);
-		list.add((thirdNegate?"-":"") + third);
-		Collections.sort(list,new ComparatorOfNumericString());
-		StringBuilder sb = new StringBuilder();
-		sb.append("(");
-		for(String s : list) {
-			sb.append(s);
-			sb.append(" ^ ");
-		}
-		String aux = sb.substring(0,sb.length()-3);
-		return aux + ")";
 	}
 
 }

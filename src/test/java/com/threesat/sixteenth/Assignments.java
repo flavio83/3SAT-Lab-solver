@@ -1,4 +1,4 @@
-package com.threesat.fourth;
+package com.threesat.sixteenth;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,10 +104,7 @@ public class Assignments extends ArrayList<Pair<String,Boolean>> {
 	
 	public String toString() {
 		StringBuilder s = new StringBuilder();
-		int count = 0;
 		for(Pair<String,Boolean> p : this) {
-			s.append(++count);
-			s.append(")");
 			s.append(p.getElement0());
 			s.append(" ");
 		}

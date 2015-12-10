@@ -1,4 +1,4 @@
-package com.threesat.fourth;
+package com.threesat.sixteenth;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -31,10 +31,10 @@ public class Main3SATSolver {
 	static BigInteger index = new BigInteger("0");
 	static String[] variables = new String[] { "a", "b", "c", "d" };
 	
-	//static String filename = "C:\\DEV\\3sat\\UUF250.1065.100\\uuf250-098.cnf";
+	static String filename = "C:\\DEV\\3sat\\UUF250.1065.100\\uuf250-098.cnf";
 	//static String filename = "C:\\DEV\\3sat\\UF250.1065.100\\uf250-072.cnf";
 	//static String filename = "C:\\DEV\\3sat\\3sat1000sot\\uf20-0532.cnf";
-	static String filename = "C:\\DEV\\3sat\\UF50.218.1000\\uf50-01.cnf";
+	//static String filename = "C:\\DEV\\3sat\\UF50.218.1000\\uf50-01.cnf";
 	//static String filename = "C:\\DEV\\3sat\\UUF50.218.1000\\uuf50-018.cnf";
 	//static String filename = "C:\\DEV\\3sat\\zfcp-2.8-u2-nh.cnf";
 	//static String filename = "C:\\DEV\\3sat\\UR-20-10p1_HARD.cnf";
@@ -73,15 +73,32 @@ public class Main3SATSolver {
 	}
 	
 	public Main3SATSolver(List<Clause> expression) {
-		new Main3SATSolver(expression.toArray(new Clause[]{}));
+		main3SATSolver(expression.toArray(new Clause[]{}));
 	}
 	
 	int acc = 0;
 	List<String> val = new ArrayList<>();
 	
-	public Main3SATSolver(Clause... expression) {
+	private void main3SATSolver(Clause... expression) {
+		main3SATSolver(new ArrayList<String>(),expression);
+	}
+	
+	private void main3SATSolver(List<String> vars, Clause... expression) {
+		System.out.println("CALLED " + vars.size());
+		
+		long cyclecounter = 0;
+		long variablespermutationCounter = 0;
+		
+		index = new BigInteger("0");
+		prev = new BigInteger("0");
+		variables = new String[] { "a", "b", "c", "d" };
+		
+		removedClause = new HashMap<>();
+		addedClause = new HashMap<>();
+		usedClause = new ArrayList<>();
 
-		variables = reshuffleVariablesAsNaturalOder(expression);
+		variables = reshuffleVariables(vars,expression);
+		
 		System.out.println("filename: " + filename);
 		System.out.println("exp lengh " + variables.length);
 		System.out.println("problem space's length: " + new BigInteger("2").pow(variables.length));
@@ -154,14 +171,16 @@ public class Main3SATSolver {
 				//System.out.println("r------------> " + entriesSortedByValues(removedClause));
 				
 				int pow = maxEntry.getKey();
+				//System.out.println(findKeyValue(maxEntry.getValue(),ass) + " - " + maxEntry.getValue());
 				if(!val.contains(findKeyValue(maxEntry.getValue(),ass))) {
 					val.add(findKeyValue(maxEntry.getValue(),ass));
 				}
 				if(acc!=val.size()) {
 					System.out.println("num vars used: " + val.size() + " - vars: " + val);
 					acc = val.size();
+					System.out.println(ass);
+					main3SATSolver(val,expression);
 				}
-				//System.out.println("num vars used: " + val.size() + " - vars: " + val);
 				//System.out.println("index: " + index + " shift of " + maxEntry.getKey() + "(" + (int)Math.pow(2.0d, pow) + ") " + maxEntry.getValue());
 				//aux.remove(maxEntry.getValue().get(0));
 				if(pow==-1) {
@@ -170,11 +189,6 @@ public class Main3SATSolver {
 					System.exit(-1);
 				} else {
 					index = index.add(new BigInteger("2").pow(pow));
-					
-					System.out.println(ass
-							+ " - " + findKeyValue(maxEntry.getValue(),ass) 
-							+ " - " + new BigInteger("2").pow(pow) 
-							+ " - " + maxEntry.getValue());
 				}
 				//System.out.println(index + " " + variables.length);
 				if(index.equals(new BigInteger("2").pow(variables.length))) {
@@ -230,58 +244,56 @@ public class Main3SATSolver {
 		return vars.toArray(new String[]{});
 	}
 	
-	private String[] reshuffleVariablesAsNaturalOder(Clause... expression) {
-		List<String> list = new ArrayList<>();
-		for(Clause s : expression) {
-			String first = s.getFirst().replace("-", "");
-			String second = s.getSecond().replace("-", "");
-			String third = s.getThird().replace("-", "");
-			if(!list.contains(first))
-				list.add(first);
-			if(!list.contains(second))
-				list.add(second);
-			if(!list.contains(third))
-				list.add(third);
-		}
-		Collections.sort(list,new ComparatorOfNumericString());
-		return list.toArray(new String[]{});
-	}
-	
-	class ComparatorOfNumericString implements Comparator<String>{
-	    public int compare(String string1, String string2) {
-	        return Integer.parseInt(string1) - Integer.parseInt(string2);
-	    }
-	}
-	
-	private String[] reshuffleVariables(Clause... expression) {
-		Map<String,Integer> map = new HashMap<>();
-		for(Clause s : expression) {
-			String first = s.getFirst().replace("-", "");
-			String second = s.getSecond().replace("-", "");
-			String third = s.getThird().replace("-", "");
-			if(!map.containsKey(first)) {
-				map.put(first, 0);
-			} else {
-				map.put(first, 1 + map.get(first));
+	private String[] reshuffleVariables(List<String> vars, Clause... expression) {
+		if(vars.size()>0) {
+			 List<String> aux = new ArrayList<>();
+			 aux.addAll(vars);
+			 Collections.reverse(aux);
+			 for(Clause s : expression) {
+				 String first = s.getFirst().replace("-", "");
+				 String second = s.getSecond().replace("-", "");
+				 String third = s.getThird().replace("-", "");
+				 if(!aux.contains(first)) {
+					 aux.add(first);
+				 }
+				 if(!aux.contains(second)) {
+					 aux.add(second);
+				 }
+				if(!aux.contains(third)) {
+					aux.add(third);
+				}
+			 }
+			 return aux.toArray(new String[]{});
+		} else {
+			Map<String,Integer> map = new HashMap<>();
+			for(Clause s : expression) {
+				String first = s.getFirst().replace("-", "");
+				String second = s.getSecond().replace("-", "");
+				String third = s.getThird().replace("-", "");
+				if(!map.containsKey(first)) {
+					map.put(first, 0);
+				} else {
+					map.put(first, 1 + map.get(first));
+				}
+				if(!map.containsKey(second)) {
+					map.put(second, 0);
+				} else {
+					map.put(second, 1 + map.get(second));
+				}
+				if(!map.containsKey(third)) {
+					map.put(third, 0);
+				} else {
+					map.put(third, 1 + map.get(third));
+				}
 			}
-			if(!map.containsKey(second)) {
-				map.put(second, 0);
-			} else {
-				map.put(second, 1 + map.get(second));
+			TreeMap<Integer,List<String>> sortedMap = inverse(map);
+			List<String> rtr = new ArrayList<>();
+			for(Integer s : sortedMap.keySet()) {
+				System.out.println(s + " " + sortedMap.get(s));
+				rtr.addAll(sortedMap.get(s));
 			}
-			if(!map.containsKey(third)) {
-				map.put(third, 0);
-			} else {
-				map.put(third, 1 + map.get(third));
-			}
+			return rtr.toArray(new String[]{});
 		}
-		TreeMap<Integer,List<String>> sortedMap = inverse(map);
-		List<String> rtr = new ArrayList<>();
-		for(Integer s : sortedMap.keySet()) {
-			System.out.println(s + " " + sortedMap.get(s));
-			rtr.addAll(sortedMap.get(s));
-		}
-		return rtr.toArray(new String[]{});
 	}
 	
 	public static <K, V> TreeMap<K, List<V>> inverse(Map<V, K> map) {
