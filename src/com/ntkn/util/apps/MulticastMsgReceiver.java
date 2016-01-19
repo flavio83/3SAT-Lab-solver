@@ -25,16 +25,11 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
-import com.net.flavix.dto.HibernateUtil;
-import com.net.flavix.dto.CountryEvent;
 import com.ntkn.flavix.CurrencyEvent;
 import com.ntkn.flavix.EventResult;
 import com.ntkn.flavix.NewsEvent;
 import com.ntkn.messages.IndicatorMessage;
+import com.ntkn.messages.evnveloped.IndicatorMessageEnvelope;
 
 
 
@@ -110,14 +105,15 @@ public class MulticastMsgReceiver
 			    Date date = new Date();
 			    IndicatorMessage indMsg = new IndicatorMessage(messageBuf);		
 			    
-			    countryEvent.onEvent(indMsg);
+			    countryEvent.onEvent(new IndicatorMessageEnvelope(indMsg));
 			    
 			    if(indMsg.getHeader().getMessageCategoryId()==20003
 			    		|| indMsg.getHeader() .getMessageCategoryId()==101) {
 			    	System.out.println(indMsg);
 			    }
 			    
-			    if(countryEvent.isPassed(EventResult.EVALUATION_PASSED_AS_FIRST_EVALUATION)) {
+			    if(countryEvent.isPassed(EventResult.EVALUATION_PASSED_AS_FIRST_EVALUATION_FOR_LONG_ENTRY) 
+			    		|| countryEvent.isPassed(EventResult.EVALUATION_PASSED_AS_FIRST_EVALUATION_FOR_SHORT_ENTRY)) {
 			    	System.out.println(countryEvent);
 			    	//countryEvent.reset();
 			    	//Tupla.loadAll(HibernateUtil.getSessionFactory().getCurrentSession());

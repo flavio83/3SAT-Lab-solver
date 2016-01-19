@@ -73,7 +73,7 @@ public class CSVHistoricRecord extends Persister<CSVHistoricRecord> {
 				System.out.println(">" + i + " " + line.length + " " + line[i]);
 				*/
 				try {
-				aux[Integer.parseInt(line[i])] = line[i+3];
+					aux[Integer.parseInt(line[i])] = line[i+3];
 				}catch(Exception e){
 					e.printStackTrace();
 				}

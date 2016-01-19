@@ -63,20 +63,26 @@ public class MainCountryEventPopulationBProcess {
 			
 			//get last estimate
 			sql = "select * from newsplainrow where messageheadercategoryid=" + category + " and messageheadertypeid=1 order by date asc limit 1";
-			String aux = doQuery(sql).get(0).getValue("uuid", String.class);
-			System.out.println("> "  + aux);
-			UUID idEstimate = UUID.fromString(aux);
-			System.out.println(idEstimate + " " + getGuidFromByteArray(PostgresUtils.toBytes(aux)));
+			Result<Record> recResult = doQuery(sql);
+			if(recResult.size()>0) {
+				String aux = doQuery(sql).get(0).getValue("uuid", String.class);
+				System.out.println("> "  + aux);
+				UUID idEstimate = UUID.fromString(aux);
+				System.out.println(idEstimate + " " + getGuidFromByteArray(PostgresUtils.toBytes(aux)));
+				
+				//get previous release
+				sql = "select * from newsplainrow where messageheadercategoryid=" + category + " and messageheadertypeid=0 and date<'"+date+"' order by date asc limit 1";
+				UUID idPreviousRelease = UUID.fromString(doQuery(sql).get(0).getValue("uuid", String.class));
+				
+				CategoriesPlexer plex = new CategoriesPlexer().loadPerCategory(category);
+				System.out.println(plex);
+				System.out.println("PREVIOUS " + (new NewsPlainRow().loadPerID(idPreviousRelease)));
+				System.out.println("ESTIMATE " + new NewsPlainRow().loadPerID(idEstimate));
+				System.out.println("RELEASE ON " + dateTime);
+			} else {
+				System.out.println("no last estimate");
+			}
 			
-			//get previous release
-			sql = "select * from newsplainrow where messageheadercategoryid=" + category + " and messageheadertypeid=0 and date<'"+date+"' order by date asc limit 1";
-			UUID idPreviousRelease = UUID.fromString(doQuery(sql).get(0).getValue("uuid", String.class));
-			
-			CategoriesPlexer plex = new CategoriesPlexer().loadPerCategory(category);
-			System.out.println(plex);
-			System.out.println("PREVIOUS " + (new NewsPlainRow().loadPerID(idPreviousRelease)));
-			System.out.println("ESTIMATE " + new NewsPlainRow().loadPerID(idEstimate));
-			System.out.println("RELEASE ON " + dateTime);
 		}
 		
 		/*

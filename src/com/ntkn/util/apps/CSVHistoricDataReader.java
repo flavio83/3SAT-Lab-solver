@@ -23,7 +23,7 @@ public class CSVHistoricDataReader {
 	String path7 = "C:\\DEV\\AlphaFlash\\Historical Data By Year\\Historical Data By Year\\AF Historical Data all 2014.csv";
 
 	public CSVHistoricDataReader() throws Exception {
-		 breader = new BufferedReader(new FileReader(path7));
+		 breader = new BufferedReader(new FileReader(path2));
 	     String[] header = readCSVLine();
 	     for(String s : header)
     		 System.out.println(s);

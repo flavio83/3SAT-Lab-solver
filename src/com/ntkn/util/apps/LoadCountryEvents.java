@@ -35,7 +35,7 @@ public class LoadCountryEvents {
 				Set<Integer> set = e.getFieldsMap().keySet();
 				for(Integer i : set) {
 					Double value = e.getFieldsMap().get(i);
-					news.addDatum(Math.abs(i), value, i>0);
+					news.addField(Math.abs(i), value, i>0);
 				}
 				listNews.add(news);
 				addNews(e.getDateTime(),news);

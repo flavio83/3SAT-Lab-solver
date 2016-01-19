@@ -42,6 +42,10 @@ public class NewsEvent {
 	public EventResult getResult() {
 		return result;
 	}
+	
+	public void addDatum(int index, double value, boolean greatherThan) {
+		addField(index,value,greatherThan);
+	}
 
 	public void addField(int index, double value, boolean greatherThan) {
 		fields.add(new Field(index,value,greatherThan));

@@ -25,7 +25,7 @@ import com.ntkn.messages.evnveloped.IndicatorMessageEnvelope;
 public class DukasConsoleForTest {
 	
 	private Timer time = new Timer();
-	private DukasConsoleStatus status = DukasConsoleStatus.WAITING;
+	private DukasConsoleStatus status = DukasConsoleStatus.OUT_OF_TIME;
 	private List<CurrencyEvent> eventList = new CopyOnWriteArrayList<>();
 	
 	private final Logger logger = LoggerFactory.getLogger(DukasConsoleForTest.class);
@@ -55,8 +55,8 @@ public class DukasConsoleForTest {
 		eventList.clear();
 		eventList.addAll(cEvent);
 		for(CurrencyEvent event : cEvent) {
-			//time.schedule(new DukasConsoleTask(this, true), toDate(event.getDate().minusMinutes(3)));
-			//time.schedule(new DukasConsoleTask(this, false),toDate(event.getDate().plusMinutes(3)));
+			time.schedule(new DukasConsoleTask(this, true), toDate(event.getDate().minusMinutes(3)));
+			time.schedule(new DukasConsoleTask(this, false),toDate(event.getDate().plusMinutes(3)));
 			logger.info("added " + event);
 		}
 	}
@@ -169,9 +169,9 @@ public class DukasConsoleForTest {
 		
 		public void run() {
 			if(active) {
-				//console.setInWaiting();
+				console.setInWaiting();
 			} else {
-				//console.setOutOfTime();
+				console.setOutOfTime();
 			}
 		}
 	}
