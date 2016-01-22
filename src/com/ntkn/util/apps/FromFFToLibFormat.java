@@ -22,7 +22,7 @@ public class FromFFToLibFormat {
 	
 	String[] pairs = {"GBP_CAD","GBP_USD","GBP_JPY","EUR_GBP","GBP_NZD"};
 	//String path = "C:\\Documents and Settings\\marchifl\\Desktop\\US40Unemployment.txt";
-	String path = "C:\\Documents and Settings\\marchifl\\Desktop\\UKCPI_YOverY.txt";
+	String path = "C:\\Documents and Settings\\marchifl\\Desktop\\UKRetailSales_MOverM.txt";
 
 	public FromFFToLibFormat() throws Exception {
 		String content = new String(Files.readAllBytes(Paths.get(path)));
