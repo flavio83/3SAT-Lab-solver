@@ -210,6 +210,21 @@
 			<artifactId>testng</artifactId>
 			<version>6.9.6</version>
 		</dependency>
+		<dependency>
+			<groupId>org.cfg4j</groupId>
+			<artifactId>cfg4j-core</artifactId>
+			<version>4.1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.cfg4j</groupId>
+			<artifactId>cfg4j-consul</artifactId>
+			<version>4.1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.cfg4j</groupId>
+			<artifactId>cfg4j-git</artifactId>
+			<version>4.1.4</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
