@@ -1,6 +1,7 @@
 package com.ntkn.util.apps;
 
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.ntkn.flavix.CurrencyEvent;
+import com.ntkn.flavix.NewsEvent;
 
 
 
@@ -32,7 +35,19 @@ public class ConfigurationReader {
  	    gson = new GsonBuilder().enableComplexMapKeySerialization()
  		        .setPrettyPrinting().create();
  	    
- 	   System.out.println(gson.toJson(cp));
+ 	    Map<String,Double> pairs = new HashMap<String,Double>();
+ 	    pairs.put("EURGBP", 0d);
+ 	    pairs.put("EURUSD", 0d);
+ 	    pairs.put("EURCHF", 0d);
+ 	    CurrencyEvent curEvent = new CurrencyEvent(pairs,LocalDateTime.now());
+ 	    NewsEvent newsEvent = new NewsEvent(20003);
+ 	    newsEvent.addField(0, 4.0, true);
+ 	    curEvent.addNews(newsEvent);
+ 	    newsEvent = new NewsEvent(50);
+	    newsEvent.addField(3, 2.3, false);
+	    curEvent.addNews(newsEvent);
+ 	    
+ 	    System.out.println(gson.toJson(curEvent));
 	}
 	
 	public static void main(String[] args) {

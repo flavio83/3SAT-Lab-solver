@@ -75,8 +75,5 @@ public class WatchEventExample {
         watchService.close();
         System.out.println("Watch service closed.");
     }
-    
-    public EconomicEvent elaboreString(String text) {
-    	
-    }
+
 }

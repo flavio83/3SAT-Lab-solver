@@ -14,14 +14,14 @@ import com.ntkn.messages.evnveloped.IndicatorMessageFieldEnvelope;
 
 public class NewsEvent {
 	
-	private final Logger logger = LoggerFactory.getLogger(NewsEvent.class);
+	private transient final Logger logger = LoggerFactory.getLogger(NewsEvent.class);
 	
-	private final int type = 0;
+	private transient final int type = 0;
 	
 	private int category;
 	private List<Field> fields;
 	
-	private EventResult result = EventResult.NOT_EVALUATED;
+	private transient EventResult result = EventResult.NOT_EVALUATED;
 
 	public NewsEvent(int category) {
 		this.category = category;
@@ -57,20 +57,20 @@ public class NewsEvent {
 			
 			List<IndicatorMessageFieldEnvelope> payload = msg.getPayload().getIndicatorMessageFields();
 			for(Field field : fields) {
-				double fieldValue = Double.parseDouble(payload.get(field.getIndex()-1).getfieldValue().toString());
-				logger.info("test field " + field + " against value " + fieldValue);
-				if(fieldValue == field.getValue()) {
+				double actualValue = Double.parseDouble(payload.get(field.getIndex()-1).getfieldValue().toString());
+				logger.info("test field " + field + " against value " + actualValue);
+				if(actualValue == field.getValue()) {
 					field.setEvaluation(EventResult.EVALUATION_PASSED_AS_FIRST_EVALUATION_FOR_FLAT_ENTRY);
-				} else if(fieldValue > field.getValue() && field.isGreaterThan()) {
+				} else if(actualValue > field.getValue() && field.isGreaterThan()) {
 					field.setEvaluation(EventResult.EVALUATION_PASSED_AS_FIRST_EVALUATION_FOR_LONG_ENTRY);
-				} else if (fieldValue < field.getValue() && !field.isGreaterThan()) {
+				} else if (actualValue < field.getValue() && !field.isGreaterThan()) {
 					field.setEvaluation(EventResult.EVALUATION_PASSED_AS_FIRST_EVALUATION_FOR_LONG_ENTRY);
-				} else if (fieldValue > field.getValue() && !field.isGreaterThan()) {
+				} else if (actualValue > (field.getValue()+field.getSpread()) && !field.isGreaterThan()) {
 					field.setEvaluation(EventResult.EVALUATION_PASSED_AS_FIRST_EVALUATION_FOR_SHORT_ENTRY);
-				} else if (fieldValue < field.getValue() && field.isGreaterThan()) {
+				} else if (actualValue < (field.getValue()-field.getSpread()) && field.isGreaterThan()) {
 					field.setEvaluation(EventResult.EVALUATION_PASSED_AS_FIRST_EVALUATION_FOR_SHORT_ENTRY);
 				}
-				field.setRealValue(fieldValue);
+				field.setActualValue(actualValue);
 				logger.info("field evaluated and passed: " + field);
 			}
 			EventResult first = fields.get(0).getResult();
@@ -122,10 +122,11 @@ class Field {
 	
 	private int index;
 	private double value;
-	private double realValue;
+	private double spread;
 	private boolean greaterThan;
 	
-	private EventResult result = EventResult.NOT_EVALUATED;
+	private transient double actualValue;
+	private transient EventResult result = EventResult.NOT_EVALUATED;
 	
 	public Field(int index, double value, boolean greaterThan) {
 		super();
@@ -178,6 +179,14 @@ class Field {
 	public void setValue(double value) {
 		this.value = value;
 	}
+	
+	public double getSpread() {
+		return spread;
+	}
+
+	public void setSpread(double spread) {
+		this.spread = spread;
+	}
 
 	public boolean isGreaterThan() {
 		return greaterThan;
@@ -187,12 +196,12 @@ class Field {
 		this.greaterThan = greaterThan;
 	}
 
-	public double getRealValue() {
-		return realValue;
+	public double getActualValue() {
+		return actualValue;
 	}
 
-	public void setRealValue(double realValue) {
-		this.realValue = realValue;
+	public void setActualValue(double actualValue) {
+		this.actualValue = actualValue;
 	}
 	
 	public String toString() {
@@ -201,8 +210,8 @@ class Field {
 		buf.append(index);
 		buf.append(", predicted: ");
 		buf.append(value);
-		buf.append(", realValue: ");
-		buf.append(realValue);
+		buf.append(", actualValue: ");
+		buf.append(actualValue);
 		buf.append(", greaterThan: ");
 		buf.append(greaterThan);
 		buf.append(", status: ");

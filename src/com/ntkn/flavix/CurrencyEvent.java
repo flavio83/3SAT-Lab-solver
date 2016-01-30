@@ -3,6 +3,8 @@ package com.ntkn.flavix;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,23 +18,29 @@ import com.ntkn.messages.evnveloped.IndicatorMessageEnvelope;
 public class CurrencyEvent {
 	
 	
-	private final Logger logger = LoggerFactory.getLogger(CurrencyEvent.class);
+	private transient final Logger logger = LoggerFactory.getLogger(CurrencyEvent.class);
 	
 	private LocalDateTime date;
 	private List<NewsEvent> newsEvent;
-	private List<EventResult> eventResults;
+	private Map<String,Double> pairs = null;
 	
-	private String currency = null;
-	private double pips = 0d;
-	
-	private EventResult result = EventResult.NOT_EVALUATED;
+	private transient List<EventResult> eventResults;
+	private transient EventResult result = EventResult.NOT_EVALUATED;
 
 	
-	public CurrencyEvent(String currency, LocalDateTime date) {
+	public CurrencyEvent(Map<String,Double> pairs, LocalDateTime date) {
 		this.date = date;
-		this.currency = currency;
+		this.pairs = pairs;
 		newsEvent = new ArrayList<NewsEvent>();
 		eventResults = new ArrayList<EventResult>();
+	}
+	
+	public Set<String> getPairs() {
+		return pairs.keySet();
+	}
+	
+	public Double getDelta(String pair) {
+		return pairs.get(pair);
 	}
 	
 	public boolean isLong() {
@@ -114,22 +122,6 @@ public class CurrencyEvent {
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
-	
-	public String getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
-	public double getPips() {
-		return pips;
-	}
-
-	public void setPips(double pips) {
-		this.pips = pips;
-	}
 
 	public EventResult getResult() {
 		return result;
@@ -142,24 +134,24 @@ public class CurrencyEvent {
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
 		buf.append("CountryEvent: ");
-		buf.append("\r\n");
+		buf.append(", ");
 		buf.append("NumCategories: ");
 		buf.append(newsEvent.size());
-		buf.append("\r\n");
+		buf.append(", ");
 		buf.append("Date: ");
 		buf.append(date);
-		buf.append("\r\n");
-		buf.append("Currency: ");
-		buf.append(currency);
-		buf.append("\r\n");
+		buf.append(", ");
+		buf.append("Pairs: ");
+		for(String pair : pairs.keySet()) {
+			buf.append(pair);
+			buf.append("[");
+			buf.append(pairs.get(pair));
+			buf.append("]");
+			buf.append(" - ");
+		}
+		buf.append(", ");
 		buf.append("State: ");
 		buf.append(result);
-		buf.append("\r\n");
-		buf.append("\r\n");
-		for(NewsEvent newsEvent : newsEvent) {
-			buf.append(newsEvent);
-			buf.append("\r\n");
-		}
 		return buf.toString();
 	}
 	
