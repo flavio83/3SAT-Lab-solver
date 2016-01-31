@@ -1,5 +1,6 @@
 package com.ntkn.flavix;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +20,21 @@ public class NewsEvent {
 	private transient final int type = 0;
 	
 	private int category;
+	private String currency;
+	private LocalDateTime dateTime;
 	private List<Field> fields;
 	
 	private transient EventResult result = EventResult.NOT_EVALUATED;
 
 	public NewsEvent(int category) {
+		this.dateTime = LocalDateTime.now();
+		this.category = category;
+		fields = new ArrayList<Field>();
+	}
+	
+	public NewsEvent(LocalDateTime dateTime, int category, String currency) {
+		this.dateTime = dateTime;
+		this.setCurrency(currency);
 		this.category = category;
 		fields = new ArrayList<Field>();
 	}
@@ -103,10 +114,28 @@ public class NewsEvent {
 		return category;
 	}
 	
+	public LocalDateTime getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
 		buf.append("Category: ");
 		buf.append(category);
+		buf.append("Datetime: ");
+		buf.append(dateTime);
 		buf.append(" Field's list:");
 		buf.append("\r\n");
 		for(Field field : fields) {

@@ -2,6 +2,7 @@ package com.ntkn.flavix;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,17 +21,25 @@ public class CurrencyEvent {
 	
 	private transient final Logger logger = LoggerFactory.getLogger(CurrencyEvent.class);
 	
-	private LocalDateTime date;
+	private String currency;
+	private LocalDateTime dateTime;
 	private List<NewsEvent> newsEvent;
 	private Map<String,Double> pairs = null;
 	
 	private transient List<EventResult> eventResults;
 	private transient EventResult result = EventResult.NOT_EVALUATED;
 
+	public CurrencyEvent(String currency, LocalDateTime date) {
+		this.dateTime = date;
+		this.setCurrency(currency);
+		newsEvent = new ArrayList<NewsEvent>();
+		eventResults = new ArrayList<EventResult>();
+	}
 	
-	public CurrencyEvent(Map<String,Double> pairs, LocalDateTime date) {
-		this.date = date;
+	public CurrencyEvent(String currency, Map<String,Double> pairs, LocalDateTime date) {
+		this.dateTime = date;
 		this.pairs = pairs;
+		this.setCurrency(currency);
 		newsEvent = new ArrayList<NewsEvent>();
 		eventResults = new ArrayList<EventResult>();
 	}
@@ -116,11 +125,11 @@ public class CurrencyEvent {
 	}
 
 	public LocalDateTime getDate() {
-		return date;
+		return dateTime;
 	}
 
 	public void setDate(LocalDateTime date) {
-		this.date = date;
+		this.dateTime = date;
 	}
 
 	public EventResult getResult() {
@@ -131,23 +140,45 @@ public class CurrencyEvent {
 		this.result = result;
 	}
 
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+	
+	public void setPairs(List<String> fxpairs) {
+		pairs = new HashMap<String,Double>();
+		for(String pair : fxpairs) {
+			pairs.put(pair, 0d);
+		}
+	}
+
+	public void setPairs(Map<String, Double> pairs) {
+		this.pairs = pairs;
+	}
+
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
-		buf.append("CountryEvent: ");
+		buf.append("CurrencyEvent: ");
+		buf.append(currency);
 		buf.append(", ");
-		buf.append("NumCategories: ");
-		buf.append(newsEvent.size());
+		buf.append("numEvents: ");
+		buf.append(newsEvent);
 		buf.append(", ");
 		buf.append("Date: ");
-		buf.append(date);
+		buf.append(dateTime);
 		buf.append(", ");
 		buf.append("Pairs: ");
-		for(String pair : pairs.keySet()) {
-			buf.append(pair);
-			buf.append("[");
-			buf.append(pairs.get(pair));
-			buf.append("]");
-			buf.append(" - ");
+		if(pairs!=null) {
+			for(String pair : pairs.keySet()) {
+				buf.append(pair);
+				buf.append("[");
+				buf.append(pairs.get(pair));
+				buf.append("]");
+				buf.append(" - ");
+			}
 		}
 		buf.append(", ");
 		buf.append("State: ");
