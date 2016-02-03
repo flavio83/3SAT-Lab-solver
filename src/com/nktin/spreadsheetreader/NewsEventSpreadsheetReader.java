@@ -2,6 +2,8 @@ package com.nktin.spreadsheetreader;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -21,6 +23,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ntkn.flavix.CurrencyEvent;
 import com.ntkn.flavix.NewsEvent;
 
@@ -59,9 +63,18 @@ public class NewsEventSpreadsheetReader {
 	        	 for(NewsEvent e : newsEvent)
 	     	        System.out.println(e);
 	        }
+	        
 	        List<CurrencyEvent> aux = buildUpCategoryEvent();
 	        for(CurrencyEvent e : aux)
-	        System.out.println(e);
+	        	System.out.println(e);
+	        
+	        Gson gson = new GsonBuilder().enableComplexMapKeySerialization()
+	 		        .setPrettyPrinting().create();
+	        
+	        String json = gson.toJson(aux);
+	        
+	        Files.write(Paths.get("C:\\Documents and Settings\\marchifl\\Desktop\\AlphaStreamNewsCalendar.json"), json.getBytes());
+	        
 	        x.close();
 	    }
 	    catch (Exception e)
