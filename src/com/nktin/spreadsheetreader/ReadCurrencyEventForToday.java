@@ -29,7 +29,6 @@ public class ReadCurrencyEventForToday {
 			List<CurrencyEvent> cEvents = selectEventValidFromNow(gson.fromJson(new String(text),listType));
 			System.out.println(cEvents.size());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -37,20 +36,29 @@ public class ReadCurrencyEventForToday {
 	
 	public void startProcess() {
 		try {
-		      String line;
-		      Process p = Runtime.getRuntime().exec
-		        (System.getenv("windir") +"\\system32\\"+"tree.com /A");
-		      BufferedReader input =
-		        new BufferedReader
-		          (new InputStreamReader(p.getInputStream()));
-		      while ((line = input.readLine()) != null) {
-		        System.out.println(line);
-		      }
-		      input.close();
-		    }
-		    catch (Exception err) {
-		      err.printStackTrace();
-		    }
+			// Create ProcessBuilder.
+			ProcessBuilder pb = new ProcessBuilder();
+
+			// Use command "notepad.exe" and open the file.
+			pb.command("notepad.exe", "C:\\file.txt");
+			pb.start();
+			
+		
+			
+	      String line;
+	      Process p = Runtime.getRuntime().exec
+	        (System.getenv("windir") +"\\system32\\"+"tree.com /A");
+	      BufferedReader input =
+	        new BufferedReader
+	          (new InputStreamReader(p.getInputStream()));
+	      while ((line = input.readLine()) != null) {
+	        System.out.println(line);
+	      }
+	      input.close();
+	    }
+	    catch (Exception err) {
+	      err.printStackTrace();
+	    }
 	}
 	
 	private List<CurrencyEvent> selectEventValidFromNow(List<CurrencyEvent> list) {
@@ -65,8 +73,19 @@ public class ReadCurrencyEventForToday {
 		return aux;
 	}
 	
+	/*
 	public static void main(String[] args) {
 		new ReadCurrencyEventForToday();
-	}
+	}*/
+	
+	public static void main(String[] args) throws Exception {
+        String execStr = "C:\\Program Files\\Java\\jre1.8.0_66\\bin\\java.exe -cp C:\\Documents and Settings\\marchifl\\Desktop HelloWorld";
+        Process proc = Runtime.getRuntime().exec(execStr);
+        System.out.println("proc: " + proc);
+        Thread.sleep(20000);
+        System.out.println("destroying");
+        proc.destroyForcibly();
+        System.out.println("destroyed");
+    }
 
 }
